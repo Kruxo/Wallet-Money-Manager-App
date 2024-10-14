@@ -12,6 +12,12 @@ const PORT = process.env.PORT;
 app.use(express.json()); //the data will be in json-format
 app.use(cors()); //cors where the server should be accessed by, leaving it empty in this case, could be a domain
 
+const path = require("path");
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "build/index.html"));
+})
+
 //routes
 readdirSync("./routes").map((route) => app.use("/api/v1", require("./routes/" + route))); //This is going to read the files we have in the routes folder. 
 //Since we might have multiple files in the routes folder we are map the files and name each files as route
